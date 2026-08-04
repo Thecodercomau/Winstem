@@ -5,7 +5,7 @@
    Supabase and require a connection (the UI says so).
    ═══════════════════════════════════════════════════════════ */
 
-const VERSION = "winstem-v1.0.0";
+const VERSION = "winstem-v1.0.1";
 
 const CORE_ASSETS = [
   "./",
@@ -96,13 +96,21 @@ self.addEventListener("fetch", function (event) {
   /* Never cache Supabase API traffic (handled by the app layer) */
   if (url.hostname.indexOf("supabase") !== -1) return;
 
-  /* App shell (navigation) → network-first with cache fallback */
+  /* App shell (navigation) → network-first with cache fallback.
+     ⚠ Only cache OK responses: caching a 404 fallback page as the shell
+     would poison the app and cause a redirect loop (see 404.html). */
   if (req.mode === "navigate") {
     event.respondWith(
       fetch(req).then(function (res) {
-        const copy = res.clone();
-        caches.open(VERSION).then(function (cache) { cache.put("./index.html", copy); });
-        return res;
+        if (res.ok) {
+          const copy = res.clone();
+          caches.open(VERSION).then(function (cache) { cache.put("./index.html", copy); });
+          return res;
+        }
+        /* Error/redirect response — fall back to cached shell, don't cache it */
+        return caches.match("./index.html").then(function (hit) {
+          return hit || caches.match("./") || res;
+        });
       }).catch(function () {
         return caches.match("./index.html").then(function (hit) {
           return hit || caches.match("./");

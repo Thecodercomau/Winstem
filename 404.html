@@ -10,9 +10,11 @@
     try {
       var here = window.location.pathname;
       var base = here.substring(0, here.lastIndexOf("/")) + "/";
-      window.location.replace(base);
+      /* Never self-redirect: if we are already at the app shell path,
+         this is a stale cached 404 — stop instead of looping. */
+      if (base !== here) window.location.replace(base);
     } catch (e) {
-      window.location.replace("./");
+      if (window.location.pathname !== "/") window.location.replace("./");
     }
   })();
 </script>
