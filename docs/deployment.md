@@ -71,13 +71,22 @@ Full instructions in [supabase.md](supabase.md). The short version:
 
 ## 4. Deploy to GitHub Pages
 
-### Option A — GitHub Actions (recommended)
+### Option A — Deploy from a branch (simplest, used by default)
 
-The workflow already ships in the repo at `.github/workflows/deploy.yml`. On every
-push to `main` it builds `js/config.local.js` from repository secrets and deploys
-to Pages automatically.
+The anon key is public by design, so `js/config.local.js` is committed to the
+repo and GitHub Pages deploys it as-is on every push to `main`.
 
-All you need to do:
+1. **Settings → Pages → Source → Deploy from a branch → `main` → `/ (root)` → Save**.
+2. Every subsequent push to `main` rebuilds the site automatically (1–3 minutes).
+
+> The custom Actions workflow was intentionally removed because it conflicted
+> with branch deploys. If you prefer to keep the key out of git later, you can
+> switch to the Actions approach (see below).
+
+### Option B — GitHub Actions (key stays out of git)
+
+If you want the anon key to never live in the repo, add the workflow back
+(`.github/workflows/deploy.yml`) that builds `js/config.local.js` from secrets:
 
 1. **Add two repository secrets** (**Settings → Secrets and variables → Actions**):
 
@@ -86,11 +95,8 @@ All you need to do:
    | `SUPABASE_URL` | `https://<project-ref>.supabase.co` |
    | `SUPABASE_ANON_KEY` | `sb_publishable_...` / legacy anon key |
 
-2. **Enable Pages with Actions as source** (**Settings → Pages → Source →
-   GitHub Actions**). The first push will then deploy the site.
-
-3. Optionally trigger a manual deploy from the **Actions** tab
-   (the workflow supports `workflow_dispatch`).
+2. **Settings → Pages → Source → GitHub Actions**.
+3. Re-add the workflow file; every push deploys automatically.
 
 ### Option B — Manual
 
