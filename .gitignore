@@ -1,7 +1,7 @@
 # ═══════════ Winstem .gitignore ═══════════
 
 # Never commit credentials or local configuration
-js/config.local.js
+# js/config.local.js — now committed (anon key is public by design)
 
 # Editor / OS cruft
 .DS_Store
