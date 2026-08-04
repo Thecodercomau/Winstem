@@ -1,0 +1,137 @@
+/* ═══════════════════════════════════════════════════════════
+   WINSTEM — Responsive
+   Dedicated layouts for tablets and phones — the desktop
+   adapts rather than simply shrinking.
+   ═══════════════════════════════════════════════════════════ */
+
+/* ── Tablets / small laptops ──────────────────────────────── */
+@media (max-width: 900px) {
+  .fm-sidebar { width: 64px; padding: 12px 8px; }
+  .fm-nav-item span, .fm-newbtn span { display: none; }
+  .fm-newbtn { padding: 10px; }
+  .fm-newbtn i { font-size: 15px; }
+  .fm-nav-item { justify-content: center; padding: 9px; }
+  .fm-nav-item i { font-size: 16px; }
+  .fm-storage-card { padding: 10px; text-align: center; }
+  .fm-storage-title { justify-content: center; }
+  .fm-storage-title { font-size: 0; }
+  .fm-storage-title::after { content: "Storage"; font-size: 10px; }
+  .fm-storage-used { font-size: 12px; }
+
+  .settings-side { width: 64px; padding: 12px 8px; }
+  .settings-nav-item span { display: none; }
+  .settings-nav-item { justify-content: center; padding: 11px; }
+  .settings-nav-item i { font-size: 16px; }
+
+  .notes-side { width: 180px; }
+}
+
+/* ── Phones ───────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  :root { --taskbar-h: 56px; }
+
+  body { user-select: none; -webkit-user-select: none; }
+  #desktop { inset: 0 0 var(--taskbar-h) 0; }
+  #windows-layer { inset: 0 0 var(--taskbar-h) 0; }
+
+  /* desktop icons: larger touch targets */
+  .desktop-icon { width: 96px; height: 104px; }
+  .desktop-icon-glyph { width: 56px; height: 56px; font-size: 2.5rem; }
+
+  /* taskbar: start + running windows; search collapses to icon */
+  .taskbar-search-btn { min-width: 38px; width: 38px; padding: 0; justify-content: center; border-radius: 10px; }
+  .taskbar-search-text, .taskbar-search-kbd { display: none; }
+  .taskbar-windows { justify-content: flex-start; overflow-x: auto; }
+  .taskbar-app-btn .win-btn-title { display: none; }
+  #taskbar-pinned { display: none; }
+  .tray-date { display: none; }
+  #tray-clock { flex-direction: row; gap: 6px; align-items: center; }
+  #quick-settings-btn { display: none; }
+  #tray-sync { display: none; }
+
+  /* start menu: full-width sheet */
+  #startmenu {
+    left: 8px;
+    right: 8px;
+    bottom: calc(var(--taskbar-h) + 8px);
+    width: auto;
+    max-height: 70vh;
+  }
+
+  /* windows fill most of the screen */
+  .win-window:not(.minimized) {
+    width: calc(100vw - 16px) !important;
+    left: 8px !important;
+    max-width: none;
+  }
+  .win-titlebar { height: 44px; flex-basis: 44px; }
+  .win-ctrl { width: 46px; height: 36px; }
+
+  /* files app: full-bleed layout */
+  .fm-sidebar { display: none; }
+  .fm-toolbar { padding: 8px 10px; flex-wrap: wrap; gap: 6px; }
+  .fm-breadcrumbs { order: 3; width: 100%; }
+  .fm-search input { width: 90px; }
+  .fm-search input:focus { width: 120px; }
+  .fm-content.fm-grid { grid-template-columns: repeat(auto-fill, minmax(92px, 1fr)); }
+
+  /* settings */
+  .settings-app { flex-direction: column; }
+  .settings-side {
+    width: 100%;
+    flex-direction: row;
+    overflow-x: auto;
+    border-right: 0;
+    border-bottom: 1px solid var(--border);
+    padding: 8px;
+    gap: 4px;
+    flex-shrink: 0;
+  }
+  .settings-nav-item { flex-shrink: 0; }
+  .settings-nav-item span { display: none; }
+  .settings-nav-item i { font-size: 15px; }
+  .settings-main { padding: 16px; }
+
+  /* notes */
+  .notes-app { flex-direction: column; }
+  .notes-side {
+    width: 100%;
+    flex-direction: row;
+    align-items: center;
+    border-right: 0;
+    border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
+  }
+  .notes-newbtn { flex-shrink: 0; padding: 8px 14px; }
+  .notes-search { flex: 1; }
+  .notes-list { flex-direction: row; overflow-x: auto; }
+  .notes-item { flex-shrink: 0; width: 150px; }
+
+  /* launcher */
+  .launcher-grid { grid-template-columns: repeat(auto-fill, minmax(88px, 1fr)); }
+  .search-panel { max-height: 80vh; }
+
+  /* context menus: larger touch targets */
+  .context-item { padding: 11px 12px; font-size: 14px; }
+
+  /* toasts */
+  .toast-container-winstem { left: 16px; right: 16px; width: auto; }
+}
+
+/* ── Very small phones ────────────────────────────────────── */
+@media (max-width: 420px) {
+  .auth-card { padding: 26px 20px 18px; }
+  .fm-content.fm-list .fm-list-head,
+  .fm-content.fm-list .fm-list-item { grid-template-columns: 40px minmax(0, 1fr) 34px; }
+  .fm-content.fm-list .fm-list-head span:nth-child(2),
+  .fm-content.fm-list .fm-list-item .fm-item-meta { display: none; }
+  .share-card { padding: 22px; }
+  .sd-row { flex-wrap: wrap; }
+}
+
+/* ── Print (nice-to-have) ─────────────────────────────────── */
+@media print {
+  #taskbar, #desktop, .win-titlebar { display: none !important; }
+  body { overflow: visible; }
+  .win-window { position: static !important; width: 100% !important; height: auto !important; box-shadow: none; }
+}

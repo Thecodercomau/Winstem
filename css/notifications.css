@@ -1,0 +1,110 @@
+/* ═══════════════════════════════════════════════════════════
+   WINSTEM — Notifications
+   ═══════════════════════════════════════════════════════════ */
+
+.toast-container-winstem {
+  position: fixed;
+  right: 16px;
+  bottom: calc(var(--taskbar-h) + 16px);
+  z-index: 9600;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  pointer-events: none;
+  width: min(360px, calc(100vw - 32px));
+}
+.win-toast {
+  pointer-events: auto;
+  position: relative;
+  display: flex;
+  gap: 12px;
+  padding: 12px 14px;
+  background: var(--surface-solid);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  cursor: pointer;
+  overflow: hidden;
+  animation: toastIn 0.22s ease;
+}
+.win-toast.leaving { animation: toastOut 0.2s ease forwards; }
+@keyframes toastIn { from { opacity: 0; transform: translateX(24px); } to { opacity: 1; transform: none; } }
+@keyframes toastOut { to { opacity: 0; transform: translateX(24px); } }
+
+.win-toast.success { border-left-color: var(--success); }
+.win-toast.danger { border-left-color: var(--danger); }
+.win-toast.warn { border-left-color: var(--warning); }
+.win-toast-icon { font-size: 1.05rem; color: var(--accent); padding-top: 1px; }
+.win-toast.success .win-toast-icon { color: var(--success); }
+.win-toast.danger .win-toast-icon { color: var(--danger); }
+.win-toast.warn .win-toast-icon { color: var(--warning); }
+.win-toast-body { flex: 1; min-width: 0; }
+.win-toast-title { font-size: 13px; font-weight: 700; }
+.win-toast-msg { font-size: 12px; color: var(--text-2); margin-top: 2px; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+.win-toast-close {
+  background: none;
+  border: none;
+  color: var(--text-3);
+  font-size: 12px;
+  padding: 2px;
+  height: fit-content;
+}
+.win-toast-close:hover { color: var(--text); }
+.win-toast-progress {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--accent), #a855f7);
+  animation: toastProgress linear forwards;
+}
+@keyframes toastProgress { from { width: 100%; } to { width: 0%; } }
+
+/* ── Notification center ──────────────────────────────────── */
+#notif-center {
+  right: 8px;
+  bottom: calc(var(--taskbar-h) + 10px);
+  width: min(380px, calc(100vw - 16px));
+  max-height: 520px;
+  border-radius: var(--radius-lg);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.notif-center-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  font-size: 14px;
+  font-weight: 700;
+  border-bottom: 1px solid var(--border);
+}
+.notif-clear { background: none; border: none; color: var(--text-3); font-size: 14px; padding: 4px 6px; border-radius: 6px; }
+.notif-clear:hover { background: var(--hover); color: var(--danger); }
+.notif-center-list { overflow: auto; flex: 1; }
+.notif-empty { text-align: center; color: var(--text-3); padding: 40px 0; font-size: 13px; }
+.notif-empty i { font-size: 2.2rem; display: block; margin-bottom: 10px; opacity: 0.5; }
+.notif-item {
+  display: flex;
+  gap: 12px;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+  cursor: default;
+  transition: background 0.12s ease;
+}
+.notif-item:hover { background: var(--hover); }
+.notif-item.unread { background: var(--accent-soft); }
+.notif-item.unread:hover { background: color-mix(in srgb, var(--accent) 22%, transparent); }
+.notif-item-icon { font-size: 1.05rem; padding-top: 2px; }
+.notif-item-icon.success { color: var(--success); }
+.notif-item-icon.danger { color: var(--danger); }
+.notif-item-icon.warn { color: var(--warning); }
+.notif-item-icon.info { color: var(--accent); }
+.notif-item-body { flex: 1; min-width: 0; }
+.notif-item-title { font-size: 13px; font-weight: 600; }
+.notif-item-msg { font-size: 12px; color: var(--text-2); margin-top: 1px; }
+.notif-item-time { font-size: 11px; color: var(--text-3); margin-top: 4px; }
+.notif-item-dismiss { background: none; border: none; color: var(--text-3); font-size: 11px; height: fit-content; padding: 2px; }
+.notif-item-dismiss:hover { color: var(--text); }

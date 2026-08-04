@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Winstem</title>
+<script>
+  /* GitHub Pages 404 fallback — route the visitor to the app shell. */
+  (function () {
+    try {
+      var here = window.location.pathname;
+      var base = here.substring(0, here.lastIndexOf("/")) + "/";
+      window.location.replace(base);
+    } catch (e) {
+      window.location.replace("./");
+    }
+  })();
+</script>
+</head>
+<body style="background:#0b0e14;color:#e7ecf3;font-family:Segoe UI,sans-serif;display:flex;align-items:center;justify-content:center;height:100vh;margin:0">
+  <div style="text-align:center">
+    <h1 style="font-size:52px;margin:0">404</h1>
+    <p style="color:#9aa6b8">Redirecting you to Winstem…</p>
+    <a href="./" style="color:#4f8cff">Open Winstem</a>
+  </div>
+</body>
+</html>

@@ -1,0 +1,23 @@
+# ═══════════ Winstem .gitignore ═══════════
+
+# Never commit credentials or local configuration
+js/config.local.js
+
+# Editor / OS cruft
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+*.swp
+*~
+
+# Logs & temp
+*.log
+node_modules/
+.tmp/
+.temp/
+
+# Deploy artifacts (if you ever build locally)
+dist/
+build/

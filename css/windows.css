@@ -1,0 +1,127 @@
+/* ═══════════════════════════════════════════════════════════
+   WINSTEM — Window Manager
+   ═══════════════════════════════════════════════════════════ */
+
+#windows-layer {
+  position: fixed;
+  inset: 0 0 var(--taskbar-h) 0;
+  z-index: 400;
+  pointer-events: none;
+}
+#windows-layer .win-window { pointer-events: auto; }
+
+.win-window {
+  position: absolute;
+  min-width: 300px;
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+  background: var(--surface);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+  transition: box-shadow 0.15s ease, border-color 0.15s ease;
+}
+.win-window.focused {
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.5), 0 0 0 1px color-mix(in srgb, var(--accent) 45%, transparent);
+  border-color: color-mix(in srgb, var(--accent) 55%, transparent);
+}
+html[data-theme="light"] .win-window.focused {
+  box-shadow: 0 24px 60px rgba(15, 23, 42, 0.22), 0 0 0 1px color-mix(in srgb, var(--accent) 55%, transparent);
+}
+.win-window.closing { opacity: 0; transform: scale(0.96); transition: opacity 0.16s ease, transform 0.16s ease; }
+.win-window.minimized { display: none; }
+.win-window.maximized { border-radius: 0; border: 0; }
+.win-window.fullscreen {
+  position: fixed !important;
+  inset: 0 0 var(--taskbar-h) 0 !important;
+  width: 100% !important;
+  height: auto !important;
+  border-radius: 0;
+  z-index: 5000 !important;
+}
+
+/* ── Titlebar ─────────────────────────────────────────────── */
+.win-titlebar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 38px;
+  flex: 0 0 38px;
+  padding: 0 6px 0 14px;
+  background: color-mix(in srgb, var(--surface-2) 88%, transparent);
+  border-bottom: 1px solid var(--border);
+  touch-action: none;
+}
+html[data-theme="light"] .win-titlebar { background: color-mix(in srgb, #f8fafc 90%, transparent); }
+.win-window.focused .win-titlebar { background: var(--surface-2); }
+.win-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  flex: 1;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--text-2);
+  user-select: none;
+}
+.win-window.focused .win-title { color: var(--text); }
+.win-title-icon { display: flex; }
+.win-title-icon i { font-size: 14px; color: var(--accent); }
+.win-title-text { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+.win-controls { display: flex; gap: 2px; }
+.win-ctrl {
+  width: 40px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  border-radius: 6px;
+  color: var(--text-2);
+  font-size: 13px;
+  transition: background 0.12s ease, color 0.12s ease;
+}
+.win-ctrl:hover { background: var(--hover); color: var(--text); }
+.win-ctrl.win-close:hover { background: #e81123; color: #fff; }
+
+/* ── Content ──────────────────────────────────────────────── */
+.win-content {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  position: relative;
+  background: var(--surface-solid);
+}
+
+/* ── Resize handles ───────────────────────────────────────── */
+.win-resize-handle { position: absolute; z-index: 20; }
+.win-resize-handle.n, .win-resize-handle.s { left: 8px; right: 8px; height: 6px; cursor: ns-resize; }
+.win-resize-handle.e, .win-resize-handle.w { top: 8px; bottom: 8px; width: 6px; cursor: ew-resize; }
+.win-resize-handle.nw, .win-resize-handle.se { width: 12px; height: 12px; cursor: nwse-resize; }
+.win-resize-handle.ne, .win-resize-handle.sw { width: 12px; height: 12px; cursor: nesw-resize; }
+.win-resize-handle.n, .win-resize-handle.ne, .win-resize-handle.nw { top: 0; }
+.win-resize-handle.s, .win-resize-handle.se, .win-resize-handle.sw { bottom: 0; }
+.win-resize-handle.e, .win-resize-handle.ne, .win-resize-handle.se { right: 0; }
+.win-resize-handle.w, .win-resize-handle.nw, .win-resize-handle.sw { left: 0; }
+
+/* ── Snap guides ──────────────────────────────────────────── */
+.snap-guide {
+  position: fixed;
+  z-index: 350;
+  background: color-mix(in srgb, var(--accent) 30%, transparent);
+  border: 2px solid var(--accent);
+  border-radius: var(--radius-md);
+  pointer-events: none;
+  transition: opacity 0.1s ease;
+}
+#snap-guide-left { left: 6px; top: 6px; bottom: calc(var(--taskbar-h) + 6px); width: calc(50% - 12px); }
+#snap-guide-right { right: 6px; top: 6px; bottom: calc(var(--taskbar-h) + 6px); width: calc(50% - 12px); }
+#snap-guide-top { left: 6px; right: 6px; top: 6px; height: calc(50% - 12px); }
+
+/* snap window styles */
+.win-window.snap-left, .win-window.snap-right { border-radius: var(--radius-md); }

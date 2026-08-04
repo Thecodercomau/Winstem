@@ -1,0 +1,54 @@
+{
+  "name": "Winstem — Cloud Operating Environment",
+  "short_name": "Winstem",
+  "description": "A browser-based cloud operating system with cloud storage, applications, files and synchronization.",
+  "id": "winstem",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#0b0e14",
+  "theme_color": "#0b0e14",
+  "categories": ["productivity", "utilities", "cloud"],
+  "lang": "en",
+  "icons": [
+    {
+      "src": "assets/icons/system/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/icons/system/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/icons/system/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "assets/icons/system/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Open Files",
+      "short_name": "Files",
+      "url": "./#/files",
+      "icons": [{ "src": "assets/icons/system/favicon.svg", "sizes": "any" }]
+    },
+    {
+      "name": "New Note",
+      "short_name": "Notes",
+      "url": "./#/notes",
+      "icons": [{ "src": "assets/icons/system/favicon.svg", "sizes": "any" }]
+    }
+  ]
+}

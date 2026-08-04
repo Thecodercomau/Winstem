@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="description" content="Winstem — a cloud operating environment running in your browser. Cloud storage, applications, files, settings and synchronization powered by Supabase.">
+<meta name="theme-color" content="#0b0e14" id="meta-theme-color">
+<title>Winstem — Cloud Operating Environment</title>
+
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/svg+xml" href="assets/icons/system/favicon.svg">
+<link rel="apple-touch-icon" href="assets/icons/system/icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Winstem">
+
+<link rel="stylesheet" href="css/bootstrap.min.css">
+<link rel="stylesheet" href="css/bootstrap-icons.css">
+<link rel="stylesheet" href="css/winstem.css">
+<link rel="stylesheet" href="css/desktop.css">
+<link rel="stylesheet" href="css/windows.css">
+<link rel="stylesheet" href="css/taskbar.css">
+<link rel="stylesheet" href="css/file-manager.css">
+<link rel="stylesheet" href="css/applications.css">
+<link rel="stylesheet" href="css/settings.css">
+<link rel="stylesheet" href="css/notifications.css">
+<link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+<!-- ══════════════════ BOOT SPLASH ══════════════════ -->
+<div id="boot-splash" aria-hidden="true">
+  <div class="boot-splash-inner">
+    <div class="boot-logo" id="boot-logo">
+      <svg viewBox="0 0 64 64" width="72" height="72" role="img" aria-label="Winstem">
+        <defs>
+          <linearGradient id="boot-grad" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#22d3ee"/>
+            <stop offset="55%" stop-color="#6366f1"/>
+            <stop offset="100%" stop-color="#a855f7"/>
+          </linearGradient>
+        </defs>
+        <rect x="6" y="6" width="52" height="52" rx="14" fill="url(#boot-grad)"/>
+        <path d="M20 46V18l24 28V18" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <div class="boot-title">Winstem</div>
+    <div class="boot-sub">Cloud Operating Environment</div>
+    <div class="boot-progress"><div class="boot-progress-bar"></div></div>
+  </div>
+</div>
+
+<!-- ══════════════════ AUTH VIEW ══════════════════ -->
+<div id="auth-view" class="hidden" role="main" aria-label="Winstem sign in">
+  <div class="auth-backdrop">
+    <div class="auth-card" role="dialog" aria-modal="true" aria-labelledby="auth-title">
+      <div class="auth-brand">
+        <svg viewBox="0 0 64 64" width="52" height="52" aria-hidden="true">
+          <defs>
+            <linearGradient id="auth-grad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#22d3ee"/>
+              <stop offset="55%" stop-color="#6366f1"/>
+              <stop offset="100%" stop-color="#a855f7"/>
+            </linearGradient>
+          </defs>
+          <rect x="6" y="6" width="52" height="52" rx="14" fill="url(#auth-grad)"/>
+          <path d="M20 46V18l24 28V18" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <div>
+          <div class="auth-name">Winstem</div>
+          <div class="auth-tag">Cloud Operating Environment</div>
+        </div>
+      </div>
+
+      <div id="auth-alert" class="auth-alert hidden" role="alert"></div>
+
+      <!-- Login -->
+      <form id="login-form" class="auth-pane" autocomplete="on">
+        <h1 id="auth-title">Welcome back</h1>
+        <p class="auth-hint">Sign in to access your cloud desktop</p>
+        <div class="mb-3">
+          <label class="form-label" for="login-email">Email address</label>
+          <input type="email" class="form-control" id="login-email" placeholder="you@example.com" required autocomplete="email">
+        </div>
+        <div class="mb-3">
+          <div class="d-flex justify-content-between align-items-center">
+            <label class="form-label" for="login-password">Password</label>
+            <button type="button" class="auth-link" id="login-forgot-link">Forgot password?</button>
+          </div>
+          <input type="password" class="form-control" id="login-password" placeholder="Your password" required autocomplete="current-password">
+        </div>
+        <button type="submit" class="btn btn-primary w-100 btn-auth" id="login-submit">
+          <span class="btn-label">Sign in</span><span class="spinner-border spinner-border-sm d-none"></span>
+        </button>
+        <p class="auth-switch">New to Winstem? <button type="button" class="auth-link" data-auth-pane="register-form">Create an account</button></p>
+      </form>
+
+      <!-- Register -->
+      <form id="register-form" class="auth-pane hidden" autocomplete="on">
+        <h1>Create your account</h1>
+        <p class="auth-hint">Your cloud workspace, on every device</p>
+        <div class="mb-3">
+          <label class="form-label" for="reg-username">Username</label>
+          <input type="text" class="form-control" id="reg-username" placeholder="e.g. ada" minlength="3" maxlength="24" pattern="[a-zA-Z0-9_.-]+" required autocomplete="username">
+          <div class="form-text">3–24 characters: letters, numbers, . _ -</div>
+        </div>
+        <div class="mb-3">
+          <label class="form-label" for="reg-email">Email address</label>
+          <input type="email" class="form-control" id="reg-email" placeholder="you@example.com" required autocomplete="email">
+        </div>
+        <div class="mb-3">
+          <label class="form-label" for="reg-password">Password</label>
+          <input type="password" class="form-control" id="reg-password" placeholder="At least 8 characters" minlength="8" required autocomplete="new-password">
+        </div>
+        <div class="mb-3">
+          <label class="form-label" for="reg-confirm">Confirm password</label>
+          <input type="password" class="form-control" id="reg-confirm" placeholder="Repeat your password" minlength="8" required autocomplete="new-password">
+        </div>
+        <button type="submit" class="btn btn-primary w-100 btn-auth" id="register-submit">
+          <span class="btn-label">Create account</span><span class="spinner-border spinner-border-sm d-none"></span>
+        </button>
+        <p class="auth-switch">Already have an account? <button type="button" class="auth-link" data-auth-pane="login-form">Sign in</button></p>
+      </form>
+
+      <!-- Forgot password -->
+      <form id="forgot-form" class="auth-pane hidden">
+        <h1>Reset your password</h1>
+        <p class="auth-hint">We'll email you a link to create a new password.</p>
+        <div class="mb-3">
+          <label class="form-label" for="forgot-email">Email address</label>
+          <input type="email" class="form-control" id="forgot-email" placeholder="you@example.com" required autocomplete="email">
+        </div>
+        <button type="submit" class="btn btn-primary w-100 btn-auth" id="forgot-submit">
+          <span class="btn-label">Send reset link</span><span class="spinner-border spinner-border-sm d-none"></span>
+        </button>
+        <p class="auth-switch"><button type="button" class="auth-link" data-auth-pane="login-form">Back to sign in</button></p>
+      </form>
+
+      <!-- Reset password (from email link) -->
+      <form id="reset-form" class="auth-pane hidden">
+        <h1>Choose a new password</h1>
+        <p class="auth-hint">Enter a new password for your account.</p>
+        <div class="mb-3">
+          <label class="form-label" for="reset-password">New password</label>
+          <input type="password" class="form-control" id="reset-password" placeholder="At least 8 characters" minlength="8" required autocomplete="new-password">
+        </div>
+        <div class="mb-3">
+          <label class="form-label" for="reset-confirm">Confirm new password</label>
+          <input type="password" class="form-control" id="reset-confirm" placeholder="Repeat password" minlength="8" required autocomplete="new-password">
+        </div>
+        <button type="submit" class="btn btn-primary w-100 btn-auth" id="reset-submit">
+          <span class="btn-label">Update password</span><span class="spinner-border spinner-border-sm d-none"></span>
+        </button>
+      </form>
+
+      <div class="auth-footer">
+        <span id="auth-offline-badge" class="badge text-bg-secondary d-none"><i class="bi bi-wifi-off"></i> Offline</span>
+        <span class="auth-version">Winstem v1.0.0</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════ SHARE VIEW ══════════════════ -->
+<div id="share-view" class="hidden" role="main" aria-label="Shared file">
+  <div class="share-backdrop">
+    <div class="share-card">
+      <div id="share-body" class="share-body">
+        <div class="share-loading text-center p-5">
+          <div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading…</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════ OPERATING SYSTEM ══════════════════ -->
+<div id="os" class="hidden">
+  <!-- Desktop -->
+  <div id="desktop" role="application" aria-label="Winstem desktop">
+    <div id="desktop-icons" class="desktop-icons" aria-label="Desktop icons"></div>
+    <div id="desktop-selection" class="desktop-selection hidden"></div>
+    <div id="desktop-status" class="desktop-status hidden">
+      <span id="desktop-status-text">Synchronizing with cloud…</span>
+    </div>
+  </div>
+
+  <!-- Window layer -->
+  <div id="windows-layer"></div>
+
+  <!-- Snap guides -->
+  <div id="snap-guide-left" class="snap-guide hidden"></div>
+  <div id="snap-guide-right" class="snap-guide hidden"></div>
+
+  <!-- ═══════════════ TASKBAR ═══════════════ -->
+  <div id="taskbar" role="toolbar" aria-label="Taskbar">
+    <div class="taskbar-left">
+      <button id="start-btn" class="taskbar-btn taskbar-start" aria-label="Start" aria-haspopup="menu">
+        <svg viewBox="0 0 64 64" width="26" height="26" aria-hidden="true">
+          <defs><linearGradient id="start-grad" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#22d3ee"/><stop offset="55%" stop-color="#6366f1"/><stop offset="100%" stop-color="#a855f7"/>
+          </linearGradient></defs>
+          <rect x="6" y="6" width="52" height="52" rx="14" fill="url(#start-grad)"/>
+          <path d="M20 46V18l24 28V18" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <button id="taskbar-search-btn" class="taskbar-search-btn" aria-label="Search">
+        <i class="bi bi-search"></i><span class="taskbar-search-text">Search</span>
+        <kbd class="taskbar-search-kbd" id="search-kbd-hint">Ctrl K</kbd>
+      </button>
+      <div id="taskbar-pinned" class="taskbar-pinned" role="list" aria-label="Pinned applications"></div>
+    </div>
+    <div id="taskbar-windows" class="taskbar-windows" role="list" aria-label="Open windows"></div>
+    <div class="taskbar-right">
+      <div id="tray-actions" class="taskbar-tray">
+        <button id="tray-sync" class="tray-item" aria-label="Cloud sync status" title="Cloud sync">
+          <i class="bi bi-cloud-check" id="tray-sync-icon"></i>
+        </button>
+        <button id="tray-network" class="tray-item" aria-label="Network status" title="Online">
+          <i class="bi bi-wifi" id="tray-network-icon"></i>
+        </button>
+        <button id="notif-btn" class="tray-item position-relative" aria-label="Notifications" title="Notifications">
+          <i class="bi bi-bell"></i>
+          <span id="notif-badge" class="notif-badge hidden">0</span>
+        </button>
+        <button id="quick-settings-btn" class="tray-item" aria-label="Quick settings" title="Quick settings">
+          <i class="bi bi-brightness-high-fill" id="quick-settings-icon"></i>
+        </button>
+      </div>
+      <button id="tray-clock" class="tray-clock" aria-label="Clock">
+        <div class="tray-time" id="tray-time">12:00 AM</div>
+        <div class="tray-date" id="tray-date">—</div>
+      </button>
+      <button id="user-btn" class="tray-user" aria-label="User menu" aria-haspopup="menu">
+        <span id="user-avatar" class="user-avatar user-avatar-placeholder"><i class="bi bi-person-fill"></i></span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Quick settings panel -->
+  <div id="quick-panel" class="quick-panel hidden" role="dialog" aria-label="Quick settings">
+    <div class="quick-section">
+      <div class="quick-row">
+        <span class="quick-label"><i class="bi bi-moon-stars"></i> Appearance</span>
+        <div class="btn-group btn-group-sm" role="group" aria-label="Theme">
+          <button class="btn btn-outline-secondary quick-theme" data-theme-opt="light" aria-label="Light theme"><i class="bi bi-sun"></i></button>
+          <button class="btn btn-outline-secondary quick-theme" data-theme-opt="dark" aria-label="Dark theme"><i class="bi bi-moon"></i></button>
+          <button class="btn btn-outline-secondary quick-theme" data-theme-opt="system" aria-label="System theme"><i class="bi bi-circle-half"></i></button>
+        </div>
+      </div>
+      <div class="quick-row">
+        <span class="quick-label"><i class="bi bi-brightness-high"></i> UI scale</span>
+        <input type="range" class="form-range quick-scale" id="quick-scale" min="0.85" max="1.25" step="0.05" aria-label="Interface scale">
+      </div>
+      <div class="quick-row">
+        <span class="quick-label"><i class="bi bi-wifi"></i> Network</span>
+        <span class="quick-value" id="quick-network-value">Online</span>
+      </div>
+      <div class="quick-row">
+        <span class="quick-label"><i class="bi bi-cloud"></i> Cloud sync</span>
+        <span class="quick-value" id="quick-sync-value">Idle</span>
+      </div>
+    </div>
+    <button id="quick-all-settings" class="quick-footer">All settings <i class="bi bi-chevron-right"></i></button>
+  </div>
+
+  <!-- Start menu -->
+  <div id="startmenu" class="startmenu hidden" role="menu" aria-label="Start menu">
+    <div class="start-search">
+      <i class="bi bi-search"></i>
+      <input type="text" id="start-search-input" placeholder="Search apps, files, settings…" aria-label="Search" autocomplete="off">
+    </div>
+    <div class="start-body">
+      <div class="start-section">
+        <div class="start-section-title">Pinned</div>
+        <div id="start-pinned" class="start-pinned"></div>
+      </div>
+      <div class="start-section">
+        <div class="start-section-title">All apps</div>
+        <div id="start-apps" class="start-apps"></div>
+      </div>
+    </div>
+    <div class="start-footer">
+      <div class="start-user">
+        <span id="start-user-avatar" class="user-avatar user-avatar-placeholder"><i class="bi bi-person-fill"></i></span>
+        <span id="start-username">User</span>
+      </div>
+      <div class="start-footer-actions">
+        <button class="taskbar-btn" id="start-power-btn" aria-label="Power" title="Power">
+          <i class="bi bi-power"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Power menu -->
+  <div id="power-menu" class="power-menu hidden" role="menu" aria-label="Power options">
+    <button class="power-item" data-power="lock"><i class="bi bi-lock"></i> Lock screen</button>
+    <button class="power-item" data-power="signout"><i class="bi bi-box-arrow-right"></i> Sign out</button>
+    <button class="power-item" data-power="refresh"><i class="bi bi-arrow-clockwise"></i> Reload desktop</button>
+  </div>
+
+  <!-- Launcher overlay -->
+  <div id="launcher" class="launcher hidden" role="dialog" aria-modal="true" aria-label="Application launcher">
+    <div class="launcher-search">
+      <i class="bi bi-search"></i>
+      <input type="text" id="launcher-input" placeholder="Type to search apps…" autocomplete="off" aria-label="Search applications">
+    </div>
+    <div class="launcher-grid" id="launcher-grid"></div>
+  </div>
+
+  <!-- Notification center -->
+  <div id="notif-center" class="notif-center hidden" role="dialog" aria-label="Notification center">
+    <div class="notif-center-header">
+      <span>Notifications</span>
+      <button class="notif-clear" id="notif-clear-all" aria-label="Clear all"><i class="bi bi-trash"></i></button>
+    </div>
+    <div id="notif-center-list" class="notif-center-list"></div>
+  </div>
+
+  <!-- User menu -->
+  <div id="user-menu" class="user-menu hidden" role="menu" aria-label="User menu">
+    <div class="user-menu-header">
+      <span id="user-menu-avatar" class="user-avatar user-avatar-placeholder"><i class="bi bi-person-fill"></i></span>
+      <div>
+        <div id="user-menu-name">User</div>
+        <div id="user-menu-email" class="user-menu-email">—</div>
+      </div>
+    </div>
+    <div class="user-menu-item" data-um="profile"><i class="bi bi-person-gear"></i> Account settings</div>
+    <div class="user-menu-item" data-um="appearance"><i class="bi bi-palette"></i> Personalization</div>
+    <div class="user-menu-item" data-um="storage"><i class="bi bi-hdd"></i> Storage</div>
+    <div class="user-menu-item" data-um="lock"><i class="bi bi-lock"></i> Lock</div>
+    <div class="user-menu-item danger" data-um="signout"><i class="bi bi-box-arrow-right"></i> Sign out</div>
+  </div>
+
+  <!-- Context menu -->
+  <div id="contextmenu" class="context-menu hidden" role="menu"></div>
+
+  <!-- Universal search overlay -->
+  <div id="search-overlay" class="search-overlay hidden" role="presentation"></div>
+</div>
+
+<!-- Lock screen -->
+<div id="lock-screen" class="lock-screen hidden" role="dialog" aria-modal="true" aria-label="Lock screen">
+  <div class="lock-inner">
+    <div class="lock-logo">
+      <svg viewBox="0 0 64 64" width="56" height="56" aria-hidden="true"><defs><linearGradient id="lock-g" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#22d3ee"/><stop offset="55%" stop-color="#6366f1"/><stop offset="100%" stop-color="#a855f7"/></linearGradient></defs><rect x="6" y="6" width="52" height="52" rx="14" fill="url(#lock-g)"/><path d="M20 46V18l24 28V18" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    <div class="lock-time" id="lock-time">--:--</div>
+    <div class="lock-date" id="lock-date">—</div>
+    <div class="lock-input-row">
+      <input type="password" id="lock-password" class="form-control lock-input" placeholder="Press Enter or click to unlock" aria-label="Unlock">
+      <button class="btn btn-light lock-unlock-btn" id="lock-unlock" aria-label="Unlock"><i class="bi bi-arrow-right"></i></button>
+    </div>
+  </div>
+</div>
+
+<!-- Global toast container (works on auth screens too) -->
+<div id="toast-container" class="toast-container-winstem" aria-live="polite" aria-atomic="false"></div>
+
+<!-- Bootstrap modal root -->
+<div id="modal-root"></div>
+
+<!-- Optional local override config (gitignored). Loaded before config.js is read. -->
+<script>
+(function () {
+  try {
+    var s = document.createElement("script");
+    s.src = "js/config.local.js";
+    s.onerror = function () { /* optional — file may not exist */ };
+    document.head.appendChild(s);
+  } catch (e) { /* ignore */ }
+})();
+</script>
+
+<script src="js/config.js"></script>
+<script src="js/utils.js"></script>
+<script src="js/filetypes.js"></script>
+<script src="js/database.js"></script>
+<script src="js/notifications.js"></script>
+<script src="js/themes.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/storage.js"></script>
+<script src="js/filesystem.js"></script>
+<script src="js/sharing.js"></script>
+<script src="js/windows.js"></script>
+<script src="js/desktop.js"></script>
+<script src="js/taskbar.js"></script>
+<script src="js/launcher.js"></script>
+<script src="js/applications.js"></script>
+<script src="js/apps/calculator.js"></script>
+<script src="js/apps/editor.js"></script>
+<script src="js/apps/media.js"></script>
+<script src="js/apps/viewers.js"></script>
+<script src="js/apps/notes.js"></script>
+<script src="js/apps/files.js"></script>
+<script src="js/settings.js"></script>
+<script src="js/search.js"></script>
+<script src="js/shortcuts.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
