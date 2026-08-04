@@ -362,6 +362,9 @@
 <!-- Bootstrap modal root -->
 <div id="modal-root"></div>
 
+<!-- Application namespace — must exist before any module loads. -->
+<script>window.Winstem = window.Winstem || {};</script>
+
 <!-- Optional local override config (gitignored). Loaded before config.js is read. -->
 <script>
 (function () {

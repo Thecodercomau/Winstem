@@ -14,6 +14,12 @@
 (function () {
   "use strict";
 
+  /* Global application namespace — every module mounts under Winstem.
+     In strict mode, assigning to an undeclared global throws, so the
+     namespace MUST exist before any module runs. index.html also declares
+     it; this guard covers direct module loading. */
+  window.Winstem = window.Winstem || {};
+
   const DEFAULTS = Object.freeze({
     appName: "Winstem",
     appVersion: "1.0.0",
