@@ -73,39 +73,24 @@ Full instructions in [supabase.md](supabase.md). The short version:
 
 ### Option A — GitHub Actions (recommended)
 
-Create `.github/workflows/deploy.yml`:
+The workflow already ships in the repo at `.github/workflows/deploy.yml`. On every
+push to `main` it builds `js/config.local.js` from repository secrets and deploys
+to Pages automatically.
 
-```yaml
-name: Deploy to GitHub Pages
+All you need to do:
 
-on:
-  push:
-    branches: [main]
+1. **Add two repository secrets** (**Settings → Secrets and variables → Actions**):
 
-permissions:
-  contents: read
-  pages: write
-  id-token: write
+   | Secret | Value |
+   |---|---|
+   | `SUPABASE_URL` | `https://<project-ref>.supabase.co` |
+   | `SUPABASE_ANON_KEY` | `sb_publishable_...` / legacy anon key |
 
-jobs:
-  deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Create local config from secrets
-        run: |
-          echo "window.WINSTEM_CONFIG = { supabaseUrl: \"${{ secrets.SUPABASE_URL }}\", supabaseAnonKey: \"${{ secrets.SUPABASE_ANON_KEY }}\" };" > js/config.local.js
-      - uses: actions/configure-pages@v5
-      - uses: actions/upload-pages-artifact@v3
-        with:
-          path: .
-      - uses: actions/deploy-pages@v4
-```
+2. **Enable Pages with Actions as source** (**Settings → Pages → Source →
+   GitHub Actions**). The first push will then deploy the site.
 
-Then add two repository secrets (**Settings → Secrets and variables → Actions**):
-
-- `SUPABASE_URL`
-- `SUPABASE_ANON_KEY`
+3. Optionally trigger a manual deploy from the **Actions** tab
+   (the workflow supports `workflow_dispatch`).
 
 ### Option B — Manual
 

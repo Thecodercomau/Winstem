@@ -1,0 +1,71 @@
+# ═══════════════════════════════════════════════════════════
+# Winstem — Deploy to GitHub Pages
+#
+# Runs on every push to `main`:
+#   1. Builds js/config.local.js from repository secrets
+#      (SUPABASE_URL + SUPABASE_ANON_KEY) so your Supabase
+#      credentials never live in the repo.
+#   2. Publishes the static site to GitHub Pages.
+#
+# One-time setup:
+#   - Settings → Secrets and variables → Actions → New secrets:
+#       SUPABASE_URL      = https://<project-ref>.supabase.co
+#       SUPABASE_ANON_KEY = sb_publishable_... (or legacy anon key)
+#   - Settings → Pages → Source: "GitHub Actions"
+# ═══════════════════════════════════════════════════════════
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch: {}        # allow manual deploys from the Actions tab
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Fail fast if Supabase secrets are missing
+        if: ${{ secrets.SUPABASE_URL == '' || secrets.SUPABASE_ANON_KEY == '' }}
+        run: |
+          echo "::error::Missing required secrets: SUPABASE_URL and SUPABASE_ANON_KEY"
+          echo "Add them under Settings → Secrets and variables → Actions."
+          exit 1
+
+      - name: Create js/config.local.js from secrets
+        run: |
+          printf 'window.WINSTEM_CONFIG = { supabaseUrl: "%s", supabaseAnonKey: "%s" };\n' \
+            "$SUPABASE_URL" "$SUPABASE_ANON_KEY" > js/config.local.js
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+
+      - name: Verify config was created (never printed)
+        run: |
+          test -s js/config.local.js && echo "config.local.js created OK"
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
